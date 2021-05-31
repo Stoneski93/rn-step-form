@@ -5,15 +5,42 @@ import NavigationButtons from "../components/NavigationButtons";
 import { validationSchema } from "./consts";
 import { FormFields, Steps } from "./enums";
 import { useStepForm } from "./hooks";
+import { Text, View } from "react-native";
 
 export const Form = () => {
-  const { formProps, step, isFirstStep, isLastStep, handleBack } =
+  const { formProps, step, lastStep, isFirstStep, isLastStep, handleBack } =
     useStepForm();
+
+  const steps = [...Array(lastStep).keys()];
 
   return (
     <Formik {...formProps}>
       {() => (
         <>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              width: "100%",
+              marginBottom: 30,
+            }}
+          >
+            {steps.map((item) => (
+              <View
+                style={{
+                  height: 30,
+                  width: 30,
+                  borderWidth: 1,
+                  borderRadius: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: step === item + 1 ? "#bafffc" : "white",
+                }}
+              >
+                <Text>{item + 1}</Text>
+              </View>
+            ))}
+          </View>
           {step === Steps.Step1 && (
             <>
               <Input fieldName={FormFields.FirstName} label="First name" />

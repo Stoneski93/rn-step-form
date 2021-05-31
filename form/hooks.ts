@@ -6,13 +6,14 @@ import { Steps } from "./enums";
 
 export const useStepForm = () => {
   const [step, setStep] = useState(Steps.Step1);
+  const lastStep = Steps.Step3;
 
   const isFirstStep = () => {
     return step === Steps.Step1;
   };
 
   const isLastStep = () => {
-    return step === Steps.Step3;
+    return step === lastStep;
   };
 
   const handleNext = useCallback(() => {
@@ -54,6 +55,7 @@ export const useStepForm = () => {
   return {
     formProps,
     step,
+    lastStep,
     isFirstStep,
     isLastStep,
     handleBack,

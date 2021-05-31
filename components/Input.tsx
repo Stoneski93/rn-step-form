@@ -1,6 +1,6 @@
 import React from "react";
 import { useField } from "formik";
-import { Text, TextInput, StyleSheet } from "react-native";
+import { Text, TextInput, StyleSheet, View } from "react-native";
 
 interface IInupt {
   fieldName: string;
@@ -14,7 +14,9 @@ export const Input: React.FC<IInupt> = ({ fieldName, label, ...props }) => {
   const { error } = meta;
 
   return (
-    <>
+    <View
+      style={{ alignItems: "flex-start", width: "100%", marginVertical: 5 }}
+    >
       <Text style={{ color: error ? "red" : "black" }}>{label}</Text>
       <TextInput
         {...props}
@@ -24,9 +26,6 @@ export const Input: React.FC<IInupt> = ({ fieldName, label, ...props }) => {
           onBlur(fieldName);
         }}
         onChangeText={onChange(fieldName)}
-        onFocus={() => {
-          setError(undefined);
-        }}
         onSubmitEditing={onBlur(fieldName)}
         style={{
           ...styles.input,
@@ -35,7 +34,7 @@ export const Input: React.FC<IInupt> = ({ fieldName, label, ...props }) => {
         }}
       />
       {error && <Text style={{ color: "red" }}>{error}</Text>}
-    </>
+    </View>
   );
 };
 
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     width: "100%",
-    margin: 12,
+    marginVertical: 5,
     borderWidth: 1,
     padding: 5,
   },

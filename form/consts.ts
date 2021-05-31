@@ -2,6 +2,7 @@ import * as yup from "yup";
 import { FormFields } from "./enums";
 
 export const validationSchema = [
+  yup.object({}),
   yup.object({
     [FormFields.FirstName]: yup.string().required("This field is required"),
   }),

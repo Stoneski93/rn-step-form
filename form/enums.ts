@@ -1,5 +1,5 @@
 export enum Steps {
-  Step1,
+  Step1 = 1,
   Step2,
   Step3,
 }
