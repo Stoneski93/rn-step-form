@@ -13,8 +13,6 @@ export const Input: React.FC<IInupt> = ({ fieldName, label, ...props }) => {
   const { setError, setTouched } = helpers;
   const { error } = meta;
 
-  console.log({ error, fieldName });
-
   return (
     <View
       style={{ alignItems: "flex-start", width: "100%", marginVertical: 5 }}
@@ -26,6 +24,9 @@ export const Input: React.FC<IInupt> = ({ fieldName, label, ...props }) => {
         onBlur={(event) => {
           setTouched(true, false);
           onBlur(fieldName);
+        }}
+        onFocus={() => {
+          setError(undefined);
         }}
         onChangeText={onChange(fieldName)}
         onSubmitEditing={onBlur(fieldName)}

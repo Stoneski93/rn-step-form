@@ -6,12 +6,8 @@ import { Steps } from "./enums";
 
 export const useStepForm = () => {
   const [step, setStep] = useState(Steps.Step1);
-  const [steps, setSteps] = useState<{ isValid: boolean }[]>([]);
   const lastStep = Steps.Step3;
-
-  useEffect(() => {
-    setSteps([...Array(lastStep).keys()].map(() => ({ isValid: true })));
-  }, []);
+  const steps = [...Array(lastStep).keys()].map((item) => item + 1);
 
   const isFirstStep = () => {
     return step === Steps.Step1;
@@ -46,28 +42,6 @@ export const useStepForm = () => {
     try {
       const response = await axios.post("/form", values);
     } catch (e) {
-      const errorsSteps = Object.keys(e.response.data.errors).map((error) => {
-        const invalidStep = Object.entries(stepsFields).reduce(
-          (result, [currentStep, currentStepFields]) => {
-            const isStepContainError = !!currentStepFields.find(
-              (field) => field === error
-            );
-            if (isStepContainError) {
-              return result > +currentStep ? +currentStep : result;
-            }
-            return result;
-          },
-          Object.keys(stepsFields).length
-        );
-        return invalidStep;
-      });
-      const newSteps = steps.map((item, index) => {
-        if (errorsSteps.find((i) => i === index + 1)) {
-          return { isValid: false };
-        }
-        return item;
-      });
-      setSteps(newSteps);
       setErrors(e.response.data.errors);
     }
     setSubmitting(false);

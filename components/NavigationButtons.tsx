@@ -31,16 +31,8 @@ export const NavigationButtons = <T extends any>({
   };
 
   return (
-    <View>
-      {isPrev && (
-        <Button
-          title="Go back"
-          onPress={() => {
-            setErrors({});
-            onBackPress();
-          }}
-        />
-      )}
+    <View style={{ flexDirection: "row" }}>
+      {isPrev && <Button title="Go back" onPress={onBackPress} />}
       <Button
         title={!isLastStep ? "Next" : "Submit"}
         onPress={onPress}
