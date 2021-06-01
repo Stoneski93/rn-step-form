@@ -8,10 +8,8 @@ import { useStepForm } from "./hooks";
 import { Text, View } from "react-native";
 
 export const Form = () => {
-  const { formProps, step, lastStep, isFirstStep, isLastStep, handleBack } =
+  const { formProps, step, steps, isFirstStep, isLastStep, handleBack } =
     useStepForm();
-
-  const steps = [...Array(lastStep).keys()];
 
   return (
     <Formik {...formProps}>
@@ -25,19 +23,20 @@ export const Form = () => {
               marginBottom: 30,
             }}
           >
-            {steps.map((item) => (
+            {steps.map(({ isValid }, index) => (
               <View
                 style={{
-                  height: 30,
-                  width: 30,
-                  borderWidth: 1,
+                  height: 50,
+                  width: 50,
+                  borderWidth: 3,
                   borderRadius: 30,
+                  borderColor: isValid ? "black" : "red",
                   alignItems: "center",
                   justifyContent: "center",
-                  backgroundColor: step === item + 1 ? "#bafffc" : "white",
+                  backgroundColor: step === index + 1 ? "#bafffc" : "white",
                 }}
               >
-                <Text>{item + 1}</Text>
+                <Text>{index + 1}</Text>
               </View>
             ))}
           </View>

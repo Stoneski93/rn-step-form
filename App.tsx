@@ -13,6 +13,8 @@ const mock = new MockAdapter(axios, { onNoMatch: "passthrough" });
 mock.onPost("/form").reply(400, {
   errors: {
     firstName: "Field is required",
+    email: "Field is required",
+    // zipCode: "Field is required",
   },
 });
 
