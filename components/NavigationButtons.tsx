@@ -1,41 +1,28 @@
-import { useFormikContext, yupToFormErrors } from "formik";
+import { useFormikContext } from "formik";
 import React from "react";
-import { Button, View } from "react-native";
-import { OptionalObjectSchema, TypeOfShape } from "yup/lib/object";
+import { Button, View, StyleSheet } from "react-native";
 
 interface INavigationButtons {
   isPrev: boolean;
   isLastStep: boolean;
-  schema: OptionalObjectSchema<{}, Record<string, any>, TypeOfShape<{}>>;
   onBackPress: () => void;
 }
 
-export const NavigationButtons = <T extends any>({
+export const NavigationButtons = ({
   isPrev,
   isLastStep,
-  schema,
   onBackPress,
 }: INavigationButtons) => {
-  const { isValid, isSubmitting, handleSubmit, values, setErrors } =
-    useFormikContext<T>();
+  const { isValid, isSubmitting, handleSubmit } = useFormikContext();
 
   const isDisabled = !isValid || isSubmitting;
 
-  const onPress = async () => {
-    try {
-      await schema.validate(values, { abortEarly: false });
-      handleSubmit();
-    } catch (error) {
-      setErrors(yupToFormErrors(error));
-    }
-  };
-
   return (
-    <View style={{ flexDirection: "row" }}>
+    <View style={styles.container}>
       {isPrev && <Button title="Go back" onPress={onBackPress} />}
       <Button
         title={!isLastStep ? "Next" : "Submit"}
-        onPress={onPress}
+        onPress={() => handleSubmit()}
         disabled={isDisabled}
       />
     </View>
@@ -43,3 +30,9 @@ export const NavigationButtons = <T extends any>({
 };
 
 export default NavigationButtons;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+  },
+});

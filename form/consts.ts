@@ -5,12 +5,16 @@ export const validationSchema = [
   yup.object({}),
   yup.object({
     [FormFields.FirstName]: yup.string().required("This field is required"),
+    [FormFields.LastName]: yup.string().required("This field is required"),
   }),
   yup.object({
     [FormFields.ZipCode]: yup.string().required("This field is required"),
   }),
   yup.object({
-    [FormFields.Email]: yup.string().required("This field is required"),
+    [FormFields.Email]: yup
+      .string()
+      .email("Invalid email address")
+      .required("Required"),
   }),
 ];
 

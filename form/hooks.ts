@@ -1,8 +1,8 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 import axios from "axios";
 import { FormikHelpers } from "formik";
-import { stepsFields, validationSchema } from "./consts";
-import { Steps } from "./enums";
+import { validationSchema } from "./consts";
+import { Status, Steps } from "./enums";
 
 export const useStepForm = () => {
   const [step, setStep] = useState(Steps.Step1);
@@ -31,7 +31,7 @@ export const useStepForm = () => {
     values: FormValues,
     formikHelpers: FormikHelpers<FormValues>
   ) => {
-    const { setSubmitting, setErrors } = formikHelpers;
+    const { setSubmitting, setErrors, setStatus } = formikHelpers;
 
     if (!isLastStep()) {
       setSubmitting(false);
@@ -41,6 +41,7 @@ export const useStepForm = () => {
 
     try {
       const response = await axios.post("/form", values);
+      setStatus(Status.Done);
     } catch (e) {
       setErrors(e.response.data.errors);
     }
@@ -49,6 +50,7 @@ export const useStepForm = () => {
 
   const formProps = {
     initialValues: {} as FormValues,
+    initialStatus: Status.Active,
     validationSchema: validationSchema[step],
     onSubmit: handleSubmit,
   };

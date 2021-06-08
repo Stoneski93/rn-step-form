@@ -1,11 +1,10 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { Formik } from "formik";
 
 import Input from "../components/Input";
 import NavigationButtons from "../components/NavigationButtons";
-import { validationSchema } from "./consts";
-import { FormFields, Steps } from "./enums";
+import { FormFields, Status, Steps } from "./enums";
 import { useStepForm } from "./hooks";
 import StepsBullets from "../components/Steps";
 
@@ -14,40 +13,43 @@ export const Form = () => {
     useStepForm();
 
   return (
-    <Formik {...formProps}>
-      {() => (
-        <>
-          <StepsBullets {...{ steps }} activeStep={step} />
-          <View style={styles.formContainer}>
-            {step === Steps.Step1 && (
-              <>
-                <Input fieldName={FormFields.FirstName} label="First name" />
-                <Input fieldName={FormFields.LastName} label="Last name" />
-                <Input fieldName={FormFields.Age} label="Age" />
-              </>
-            )}
-            {step === Steps.Step2 && (
-              <>
-                <Input fieldName={FormFields.Address} label="Adress" />
-                <Input fieldName={FormFields.City} label="City" />
-                <Input fieldName={FormFields.ZipCode} label="Zip Code" />
-              </>
-            )}
-            {step === Steps.Step3 && (
-              <>
-                <Input fieldName={FormFields.Email} label="Email" />
-                <Input fieldName={FormFields.Phone} label="Phone" />
-              </>
-            )}
-          </View>
-          <NavigationButtons<FormValues>
-            isPrev={!isFirstStep()}
-            isLastStep={isLastStep()}
-            onBackPress={handleBack}
-            schema={validationSchema[step]}
-          />
-        </>
-      )}
+    <Formik {...formProps} validateOnChange={false}>
+      {({ status }) => {
+        return status !== Status.Done ? (
+          <>
+            <StepsBullets {...{ steps }} activeStep={step} />
+            <View style={styles.formContainer}>
+              {step === Steps.Step1 && (
+                <>
+                  <Input fieldName={FormFields.FirstName} label="First name" />
+                  <Input fieldName={FormFields.LastName} label="Last name" />
+                  <Input fieldName={FormFields.Age} label="Age" />
+                </>
+              )}
+              {step === Steps.Step2 && (
+                <>
+                  <Input fieldName={FormFields.Address} label="Adress" />
+                  <Input fieldName={FormFields.City} label="City" />
+                  <Input fieldName={FormFields.ZipCode} label="Zip Code" />
+                </>
+              )}
+              {step === Steps.Step3 && (
+                <>
+                  <Input fieldName={FormFields.Email} label="Email" />
+                  <Input fieldName={FormFields.Phone} label="Phone" />
+                </>
+              )}
+            </View>
+            <NavigationButtons
+              isPrev={!isFirstStep()}
+              isLastStep={isLastStep()}
+              onBackPress={handleBack}
+            />
+          </>
+        ) : (
+          <Text>Sucessfully</Text>
+        );
+      }}
     </Formik>
   );
 };

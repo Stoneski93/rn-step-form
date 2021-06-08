@@ -28,7 +28,10 @@ export const Input: React.FC<IInupt> = ({ fieldName, label, ...props }) => {
         onFocus={() => {
           setError(undefined);
         }}
-        onChangeText={onChange(fieldName)}
+        onChangeText={(text) => {
+          setError(undefined);
+          onChange(fieldName)(text);
+        }}
         onSubmitEditing={onBlur(fieldName)}
         style={{
           ...styles.input,

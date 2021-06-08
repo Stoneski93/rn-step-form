@@ -9,14 +9,14 @@ import { Form } from "./form";
 
 const mock = new MockAdapter(axios, { onNoMatch: "passthrough" });
 
-// mock.onPost("/form").reply(200);
-mock.onPost("/form").reply(400, {
-  errors: {
-    email: "Field is required",
-    firstName: "Field is required",
-    // zipCode: "Field is required",
-  },
-});
+mock.onPost("/form").reply(200);
+// mock.onPost("/form").reply(400, {
+//   errors: {
+//     email: "Field is required",
+//     firstName: "Field is required",
+//     // zipCode: "Field is required",
+//   },
+// });
 
 export default function App() {
   return (

@@ -14,3 +14,8 @@ export enum FormFields {
   Email = "email",
   Phone = "phone",
 }
+
+export enum Status {
+  Active = "active",
+  Done = "done",
+}
